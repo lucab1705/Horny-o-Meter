@@ -6,28 +6,29 @@ let nsfw = {
 
 let data = {}
 
-const makeURL = (src) => {
+let makeURL = (src) => {
     return "https://www.reddit.com/r/"+src+"/about.json"
 }
 
-const getData = () => {
+let askData = async (target, container, key) => {
+    await fetch(target, {}).then(async response => { 
+        await response.json().then(data => {
+            container[key] = data.data.subscribers
+        })
+    })
+}
+
+const getData = async () => {
     for (const [key, value] of Object.entries(nsfw)){
+        data[key] = {}
         let safe = makeURL(key)
         let elem_nsfw = makeURL(value)
-        data[key] = {}
-        fetch(safe, {
-            }).then(response => { 
-                return response.json()
-            }).then(result => {
-                data[key]["safe"] = result.data.subscribers
-            });
-        fetch(elem_nsfw, {
-            }).then(response => { 
-                return response.json()
-            }).then(result => {
-                data[key]["nsfw"] = result.data.subscribers
-            });
+        await askData(safe, data[key], "safe")
+        await askData(elem_nsfw, data[key], "nsfw")
     }
+    printData(data)
+}
 
-console.log(data);
+const printData = (item) => {
+    document.querySelector("#data").textContent = JSON.stringify(item)
 }

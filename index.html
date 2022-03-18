@@ -3,17 +3,15 @@
 <html>
     <head>
         <script src="gethorny.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+	    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                getData()
+            })
+        </script>
     </head>
 
     <body>
-        <input type="button" value="button" class="button"/>
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.querySelector(".button").addEventListener('click', () => {
-                getData()
-            })
-        })
-    </script>
+        <div id="data"></div>
     </body>
 </html>
