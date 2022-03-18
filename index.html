@@ -2,16 +2,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <script src="gethorny.js"></script>
+        <script src="./src/js/gethorny.js"></script>
 	    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
         <script>
             document.addEventListener("DOMContentLoaded", () => {
-                getData()
+                // should be fine once on server
+                let req = fetch('./src/json/dict.json', {}).then(response => {
+                    response.json().then(data => {
+                        getData(data)
+                    })
+                })
             })
         </script>
     </head>
 
     <body>
         <div id="data"></div>
+        <canvas id="chart" width="400" height="400"></canvas>
     </body>
 </html>
