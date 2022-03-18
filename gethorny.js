@@ -6,24 +6,26 @@ let nsfw = {
 
 let data = {}
 
-function getData(){
+const makeURL = (src) => {
+    return "https://www.reddit.com/r/"+src+"/about.json"
+}
+
+const getData = () => {
     for (const [key, value] of Object.entries(nsfw)){
-        let safe = "https://www.reddit.com/r/"+key+"/about.json"
-        let elem_nsfw = "https://www.reddit.com/r/"+value+"/about.json"
+        let safe = makeURL(key)
+        let elem_nsfw = makeURL(value)
         data[key] = {}
         fetch(safe, {
-            }).then(function (response) { 
-                return response.json();
-            }).then(function (result) {
+            }).then(response => { 
+                return response.json()
+            }).then(result => {
                 data[key]["safe"] = result.data.subscribers
-                console.log(result.data.subscribers)
             });
         fetch(elem_nsfw, {
-            }).then(function (response) { 
-                return response.json();
-            }).then(function (result) {
+            }).then(response => { 
+                return response.json()
+            }).then(result => {
                 data[key]["nsfw"] = result.data.subscribers
-                console.log(result.data.subscribers)
             });
     }
 
