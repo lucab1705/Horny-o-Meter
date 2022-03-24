@@ -20,18 +20,18 @@ const getData = async (nsfw) => {
         await askData(safe, data[key], "safe")
         await askData(elem_nsfw, data[key], "nsfw")
     }
-    printData(data)
+    return data
 }
 
-const plotData = (data) => {
+const plotData = (graphData) => {
     const ctx = document.getElementById('chart').getContext('2d');
     const myChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: Object.keys(nsfw),
+            labels: Object.keys(graphData),
             datasets: [{
                 label: '# of Subs',
-                data: [12, 19, 3, 5, 2, 3],
+                data: graphData[Object.keys(graphData)],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)',
                     'rgba(54, 162, 235, 0.2)',

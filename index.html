@@ -5,13 +5,15 @@
         <script src="./src/js/gethorny.js"></script>
 	    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
         <script>
-            document.addEventListener("DOMContentLoaded", () => {
+            document.addEventListener("DOMContentLoaded", async () => {
                 // should be fine once on server
-                let req = fetch('./src/json/dict.json', {}).then(response => {
-                    response.json().then(data => {
-                        getData(data)
+                let graphDatas;
+                let req = await fetch('./src/json/dict.json', {}).then(async response => {
+                    await response.json().then(async data => {
+                        graphDatas = await getData(data)
                     })
                 })
+                plotData(graphDatas)
             })
         </script>
     </head>
