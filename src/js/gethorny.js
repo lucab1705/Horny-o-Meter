@@ -58,10 +58,7 @@ const plotData = (graphData) => {
                 text: 'Chart.js Bar Chart - Stacked'
               },
             },
-            responsive: true,
-            interaction: {
-              intersect: false,
-            }
+            responsive: true
           }
     });
 }
