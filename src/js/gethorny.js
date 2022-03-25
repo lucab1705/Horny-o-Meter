@@ -29,9 +29,10 @@ const buildChartData = (data) => {
         for (const [k, val] of Object.entries(value)){
             datasets.push(
                 {
-                    label : key,
-                    data : [key, val],
-                    stack : 'Stack '+(k == "nsfw" ? 1 : 0) + Object.keys(data).findIndex((elem) => elem == key),
+                    label : key + ' ' + k[0],
+                    data : {[key]:val},
+                    stack : 'Stack '+ (k == "nsfw" ? 1 : 0),
+                    backgroundColor : (k == "nsfw" ? 'rgba(255,0,0,0.6)' : 'rgba(0,0,255,0.6)')
                 }
             )
         }
