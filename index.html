@@ -7,13 +7,12 @@
         <script>
             document.addEventListener("DOMContentLoaded", async () => {
                 // should be fine once on server
-                let graphDatas;
-                let req = await fetch('./src/json/dict.json', {}).then(async response => {
+                await fetch('./src/json/dict.json', {}).then(async response => {
                     await response.json().then(async data => {
-                        graphDatas = await getData(data)
+                        await getData(data)
                     })
-                })
-                plotData(graphDatas)
+                });
+                await plotData();
             })
         </script>
     </head>

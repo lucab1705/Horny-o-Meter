@@ -4,32 +4,37 @@ let makeURL = (src) => {
     return "https://www.reddit.com/r/"+src+"/about.json"
 }
 
-let askData = async (target, container, key) => {
-    await fetch(target, {}).then(async response => { 
-        await response.json().then(data => {
-            container[key] = data.data.subscribers
+let askData = async (target, game, key) => {
+    let retVal
+    await fetch(target, {}).then(async (response) => { 
+        await response.json().then(async (response) => {
+            retVal = response.data.subscribers
         })
     })
+    data[game][key] = retVal
+    return retVal
 }
 
 const getData = async (nsfw) => {
+    waitArray = new Array()
     for (const [key, value] of Object.entries(nsfw)){
         data[key] = {}
         let safe = makeURL(key)
         let elem_nsfw = makeURL(value)
-        await askData(safe, data[key], "safe")
-        await askData(elem_nsfw, data[key], "nsfw")
+        waitArray.push(askData(safe, key,"safe"))
+        waitArray.push(askData(elem_nsfw, key, "nsfw"))
     }
-    return data
+    while(elem = waitArray.pop())
+        await elem
 }
 
-const buildChartData = (data) => {
+const buildChartData = async () => {
     let datasets = []
     for (const [key, value] of Object.entries(data)){
-        for (const [k, val] of Object.entries(value)){
+        for (let [k, val] of Object.entries(data[key])){
             datasets.push(
                 {
-                    label : key + ' ' + k[0],
+                    label : key + ' ' + k,
                     data : {[key]:val},
                     stack : 'Stack '+ (k == "nsfw" ? 1 : 0),
                     backgroundColor : (k == "nsfw" ? 'rgba(255,0,0,0.6)' : 'rgba(0,0,255,0.6)')
@@ -43,19 +48,19 @@ const buildChartData = (data) => {
     }
 }
 
-const plotData = (graphData) => {
+const plotData = async () => {
     const ctx = document.getElementById('chart').getContext('2d');
-    const data = buildChartData(graphData)
+    const plotData = await buildChartData()
 
-    console.log(data)
+    console.log(plotData)
     const myChart = new Chart(ctx, {
         type: 'bar',
-        data: data,
+        data: plotData,
         options: {
             plugins: {
               title: {
                 display: true,
-                text: 'Chart.js Bar Chart - Stacked'
+                text: 'HornyChart'
               },
             },
             responsive: true
