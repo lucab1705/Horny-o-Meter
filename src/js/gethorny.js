@@ -49,7 +49,7 @@ const buildChartData = async () => {
 }
 
 const plotData = async () => {
-    const ctx = document.getElementById('chart').getContext('2d');
+    const ctx = document.querySelector('#chart').getContext('2d');
     const plotData = await buildChartData()
 
     console.log(plotData)
