@@ -62,6 +62,9 @@ const plotData = async () => {
                 display: true,
                 text: 'HornyChart'
               },
+              legend: {
+                    display: false
+                }
             },
             responsive: true
           }
